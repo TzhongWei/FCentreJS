@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+}
+
+/*CSS for a spinning animation*/
+#loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #989898;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#container {
+    position: relative;
+}
+
+#overlay {
+    z-index: 1;
+    width: 100%;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
