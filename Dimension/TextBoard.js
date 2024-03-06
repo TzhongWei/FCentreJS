@@ -13,7 +13,7 @@ export default class TextBoard {
     SizeX;
     SizeY;
     #TextPlane;
-    constructor(InputText, Width = 256, Height = 128, Style = TextStyle.DefaultStyle(), Location = Point.Origin) {
+    constructor(InputText = "", Width = 256, Height = 128, Style = TextStyle.DefaultStyle(), Location = Point.Origin) {
         this.Canvas = document.createElement('canvas');
         this.#context = this.Canvas.getContext('2d');
         this.Canvas.width = Width;
@@ -44,8 +44,9 @@ export default class TextBoard {
         this.CanvasMaterial = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
     }
 
-    static AddInstanceBoard(scene, Board) {
+    static AddInstanceBoard(scene, Board, Rotation = 0) {
         const mesh = new THREE.Mesh(Board.#TextPlane, Board.CanvasMaterial);
+        mesh.rotateZ(Rotation);
         mesh.position.set(Board.Location.x, Board.Location.y, Board.Location.z);
         scene.add(mesh);
     }

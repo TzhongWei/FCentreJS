@@ -11,6 +11,7 @@ import { Line } from './GeomUtil/Line.js'
 import Circle from './GeomUtil/Circle.js'
 import Arc from './GeomUtil/Arc.js';
 import TextBoard from './Dimension/TextBoard.js'
+import { LinearDimension } from './Dimension/LinearDimension.js'
 
 // #endregion IMPORTS //
 
@@ -144,8 +145,10 @@ function init() {
     TextBoard.AddInstanceBoard(scene, Board);
 
     //Test Geometry
-    var arc = new Arc(new Point(0, 0, 0), 5);
-    Arc.AddArcInstance(scene, arc);
+    let Vec = new Vector(2, 0, 0);
+    let DIM = LinearDimension.CreateDimensionWithVector(Point.Origin, new Point(5, 5, 0), new Point(1, 3, 0), Vec);
+    LinearDimension.AddInstanceLinearDimension(scene, DIM);
+
     //Test region with Mesh canvas
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');

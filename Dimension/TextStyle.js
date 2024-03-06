@@ -13,7 +13,8 @@ class TextStyle {
         borderColor: null,
         showBoard: null,
         showStroke: null,
-        px: null
+        px: null,
+        DIMDist: null
     };
     constructor(StyleName) {
         this.name = StyleName;
@@ -25,6 +26,7 @@ class TextStyle {
         Style.parameters.textcolour = 'black';
         Style.parameters.backgroundcolour = -1;
         Style.parameters.px = '20px';
+        Style.parameters.DIMDist = 0.3;
         return Style;
     }
 }

@@ -60,6 +60,21 @@ class Point {
         Scene.add(THREEPt);
 
     }
+    static IsColinear(...args) {
+        if (args.length < 3) {
+            return false;
+        }
+
+        for (const i = 2; i < args.length; i++) {
+            let Xratio = (args[0].x - args[1].x) / (args[0].x - args[i].x)
+            let Yratio = (args[0].y - args[1].y) / (args[0].y - args[i].y)
+            let Zratio = (args[0].z - args[1].z) / (args[0].z - args[i].z)
+            if (Xratio != Yratio && Yratio != Zratio) {
+                return false;
+            }
+        }
+        return true;
+    }
     static Origin = new Point(0, 0, 0);
     /**
      * 
@@ -123,7 +138,7 @@ class Vector {
         return new Vector(Point.x, Point.y, Point.z);
     }
     length() {
-        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
     }
     /**
      * @returns unitise a vector
@@ -147,12 +162,23 @@ class Vector {
     /**
      * 
      * @param {number} size 
-     * @returns Vector
+     * @returns this Vector
      */
     Multiple(size) {
         this.x *= size;
         this.y *= size;
         this.z *= size;
+        return this;
+    }
+    /**
+     * 
+     * @param {Point} Other 
+     * @returns this Vector
+     */
+    Add(Other) {
+        this.x += Other.x;
+        this.y += Other.y;
+        this.z += Other.z;
         return this;
     }
     /**

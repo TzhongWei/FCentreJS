@@ -24,12 +24,14 @@ class Line {
         this.StartPoint = StartPoint;
         this.EndPoint = EndPoint;
         this.Tangent = Vector.CreateFromTwoPoint(StartPoint, EndPoint);
+        this.Tangent = this.Tangent.Normalise();
         this.MidPoint = this.#MidPoint();
         this.Length = StartPoint.DistTo(EndPoint);
     }
     /**
      * Test wether the point is on the line
      * @param {Point} TestPoint 
+     * @returns {number} if -1, the point doesn't located on the line, or return the t parameter of the line.
      */
     IsPointOnLine(TestPoint) {
         let Vec1 = Vector.CreateFromTwoPoint(this.StartPoint, TestPoint);
@@ -40,6 +42,52 @@ class Line {
         }
         else {
             return -1;
+        }
+    }
+    /**
+     * 
+     * @param {Point} TestPoint 
+     * @returns 
+     */
+    VerticalPointOnLine(TestPoint) {
+        if (this.IsPointOnLine(TestPoint) != -1) {
+            return TestPoint;
+        }
+        else {
+            let Ax = this.EndPoint.x - this.StartPoint.x;
+            let Ay = this.EndPoint.y - this.StartPoint.y;
+            let Az = this.EndPoint.z - this.StartPoint.z;
+            let n = (
+                Ax * (TestPoint.x - this.EndPoint.x) +
+                Ay * (TestPoint.y - this.EndPoint.y) +
+                Az * (TestPoint.z - this.EndPoint.z)) /
+                (
+                    Ax * Ax + Ay * Ay + Az * Az
+                )
+
+            let newPt =
+                new Point(this.EndPoint.x + Ax * n, this.EndPoint.y + Ay * n, this.EndPoint.z + Az * n)
+            return newPt;
+        }
+    }
+
+    ClosetPointOnLine(TestPoint) {
+        if (this.IsPointOnLine(TestPoint) != -1) {
+            return TestPoint;
+        }
+        else {
+            let VerPt = this.VerticalPointOnLine(TestPoint);
+            if (this.IsPointOnLine(VerPt)) {
+                return VerPt;
+            }
+            else {
+                if (VerPt.DistTo(this.EndPoint) < VerPt.DistTo(this.StartPoint)) {
+                    return this.EndPoint;
+                }
+                else {
+                    return this.StartPoint;
+                }
+            }
         }
     }
 
@@ -90,10 +138,11 @@ class Line {
         return new Line(this.StartPoint, this.EndPoint);
     }
     ExtendLine(StartEx = 0, EndEx = 0) {
-        this.StartPoint = this.StartPoint.Translate(this.Tangent.Multiple(StartEx));
-        this.EndPoint = this.EndPoint.Translate(this.Tangent.Multiple(-EndEx));
+        this.StartPoint = this.StartPoint.Translate(this.Tangent.Clone().Multiple(-StartEx));
+        this.EndPoint = this.EndPoint.Translate(this.Tangent.Clone().Multiple(EndEx));
         return new Line(this.StartPoint, this.EndPoint);
     }
+
 }
 
 

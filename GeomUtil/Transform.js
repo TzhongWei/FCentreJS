@@ -113,14 +113,14 @@ class Transform {
         const ux = Axis.x;
         const uy = Axis.y;
         const uz = Axis.z;
-
+        const Vec1 = Vector.CreateFromPoint(PointCentre);
         result.#Matrix = [
             [cosA + ux * ux * oneMinusCosA, ux * uy * oneMinusCosA - uz * sinA, ux * uz * oneMinusCosA + uy * sinA, 0],
             [uy * ux * oneMinusCosA + uz * sinA, cosA + uy * uy * oneMinusCosA, uy * uz * oneMinusCosA - ux * sinA, 0],
             [uz * ux * oneMinusCosA - uy * sinA, uz * uy * oneMinusCosA + ux * sinA, cosA + uz * uz * oneMinusCosA, 0],
             [0, 0, 0, 1]
         ];
-        const Vec1 = Vector.CreateFromPoint(PointCentre);
+
         return Transform.Translate(Vec1.Reverse()).Mutliply(result).Mutliply(Transform.Translate(Vec1));
     }
     /**
